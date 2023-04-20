@@ -1,101 +1,58 @@
-#include "variadic_functions.h"
-/**
- * integer_print - print integers.
-(* a blank line
-*@args: the list of parameters
-* Description: this function prints integers)?
-(* section header: the header of this function is variadic_functions.h)*
-* Return:no return a void func.
-*/
-void integer_print(va_list args)
-{
-	printf("%d", va_arg(args, int));
-}
-/**
- * char_print - print chars.
-(* a blank line
-*@args: the list of parameters
-* Description: this function prints chars)?
-(* section header: the header of this function is variadic_functions.h)*
-* Return:no return a void func.
- */
-void char_print(va_list args)
-{
-	printf("%c", va_arg(args, int));
-}
-/**
- * string_print - print strings
-(* a blank line
-*@args: the list of parameters
-* Description: this function prints strings)?
-(* section header: the header of this function is variadic_functions.h)*
-* Return:no return a void func.
-*/
+#include "variadic_function.h"
+#include  <stdarg.h>
+#include <stdio.h>
 
-void string_print(va_list args)
-{
-	char *s;
-
-	s = va_arg(args, char *);
-	if (s == NULL)
-		s = "(nil)";
-	printf("%s", s);
-}
-
-/**
- * float_print - print floats.
-(* a blank line
-*@args: the list of parameters
-* Description: this function prints floats)?
-(* section header: the header of this function is variadic_functions.h)*
-* Return:no return a void func.
- */
-void float_print(va_list args)
-{
-	printf("%f", va_arg(args, double));
-}
 /**
  * print_all - print anything.
-(* a blank line
-*@format: the paramaters
-* Description: this function prints anything)?
-(* section header: the header of this function is variadic_functions.h)*
-* Return: this function no return
-*/
+ * @format: a listof type of argument passed to the function.
+ *
+ * Return : no return .
+ */
 
 void print_all(const char * const format, ...)
 {
-	va_list args;
-	int i, j;
-	char *separator;
-	args_t arguments[] = {
-		{"c", char_print},
-		{"i", integer_print},
-		{"f", float_print},
-		{"s", string_print},
-		{NULL, NULL}
-	};
+	va_list valist;
+	unsigned int i= 0, j, c=0;
+	char *str;
+	const char t_arg[] = "cifs";
 
-	va_start(args, format);
-	i = 0;
-	separator = "";
-
-	while (format != NULL && *(format + i) != '\0')
+	va_star(valist, format);
+	while (format && format[i])
 	{
-		j = 0;
-		while (j < 4)
+		j=0;
+		while (t_arg[j])
 		{
-			if (*(format + i) == *(arguments[j]).format)
+		       	if (format[i] == t_arg[j] && c)
 			{
-				printf("%s", separator);
-				arguments[j].function(args);
-				separator = ", ";
-
-			}
-			j++;
+			printf(", ");
+		break;
+			} j++;
 		}
-		i++;
+	switch (format[i])
+	{
+		 case 'c' :
+		         printf("%c", var_arg(valist, int)), c=1;
+			 break;
+		 case 'i':
+                         printf("%d", var_arg(valist, int)), c=1;
+                         break;
+		 case 'f':
+                         printf("%f", var_arg(valist, double)), c=1;
+                         break;
+		 case 's':
+                         str =  var_arg(valist, char *), c=1;
+                         if (!str)
+			 {
+				  
+                         printf("(nil)");
+                         break;
+			 }
+                         printf("%s",str);
+                         break;
+	} i++;
 	}
-	printf("\n");
-	va_end(args);
+	 case 'c' :
+                         printf("\n"), va_end(valist);
 }
+
+
